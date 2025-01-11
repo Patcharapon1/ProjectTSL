@@ -16,7 +16,7 @@ from tensorflow.keras.models import load_model
 OUTPUT_PATH = Path(__file__).parent
 # ปรับให้เป็น path ที่ถูกต้อง
 ASSETS_PATH = OUTPUT_PATH / \
-    Path(r"D:/ProgramProject/build2/build/assets/frame0")
+    Path(r"C:/Users/User/Desktop/Project/ProjectTSL-main/ProjectTSL-main/assets/frame0")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -96,7 +96,7 @@ class App(Tk):
 
     def play_bgm(self):
         """ฟังก์ชันสำหรับเล่นเสียง BGM"""
-        pygame.mixer.music.load("build2/build/assets/frame0/Sound/BGM1.mp3")  # ใส่ path ของไฟล์เสียง BGM ที่ต้องการเล่น
+        pygame.mixer.music.load("assets/frame0/Sound/BGM1.mp3")  # ใส่ path ของไฟล์เสียง BGM ที่ต้องการเล่น
         pygame.mixer.music.play(loops=-1, start=0.0)  # เล่น BGM ซ้ำไปเรื่อยๆ
         self.set_bgm_volume()
     def stop_bgm(self):
@@ -116,15 +116,15 @@ class App(Tk):
 
     def correct_answer(self):
         """เล่นเสียงตอบถูก"""
-        self.play_sound("build2/build/assets/frame0/Sound/Good.mp3")
+        self.play_sound("assets/frame0/Sound/Good.mp3")
 
     def time_up(self):
         """เล่นเสียงหมดเวลา"""
-        self.play_sound("build2/build/assets/frame0/Sound/Sad.mp3")
+        self.play_sound("assets/frame0/Sound/Sad.mp3")
 
     def button_click(self):
         """เล่นเสียงคลิกปุ่ม"""
-        self.play_sound("build2/build/assets/frame0/Sound/Click.mp3")
+        self.play_sound("assets/frame0/Sound/Click.mp3")
             
     def mark_video_as_watched(self, video_name):
         """บันทึกวิดีโอที่ดูแล้ว"""
@@ -194,7 +194,7 @@ class StartPage(Frame):
             file=relative_to_assets("button_2.png"))
         button_exit = Button(self, image=self.button_image_exit, borderwidth=0, highlightthickness=0,
                              bg="#FFE0D0", activebackground="#FFE0D0", relief="flat", command=exit_program)
-        button_exit.place(x=126.0, y=1017.0, width=118.0, height=24.0)
+        button_exit.place(x=126.0, y=1007.0, width=118.0, height=37.0)
 
         self.button_image_exit2 = PhotoImage(
             file=relative_to_assets("button_8.png"))
@@ -230,7 +230,7 @@ class StartPage(Frame):
                                    bg="#FFE0D0", activebackground="#FFE0D0",
                                    command=lambda: [controller.show_frame("ChallengeSelectPage"), controller.frames["ChallengeSelectPage"]],
                                    relief="flat")
-        button_Challenge2.place(x=129.0, y=338.0, width=118.0, height=24.0)
+        button_Challenge2.place(x=129.0, y=328.0, width=118.0, height=37.0)
 ###################################################################################################################################
 ############################################################### Learning ###############################################################
         self.button_image_Learning = PhotoImage(
@@ -243,7 +243,7 @@ class StartPage(Frame):
             file=relative_to_assets("button_4.png"))
         button_Learning2 = Button(self, image=self.button_image_Learning2, borderwidth=0, highlightthickness=0,
                                   bg="#FFE0D0", activebackground="#FFE0D0", command=lambda: controller.show_frame("LearningPage"), relief="flat")
-        button_Learning2.place(x=129.0, y=252.0, width=118.0, height=24.0)
+        button_Learning2.place(x=129.0, y=242.0, width=118.0, height=37.0)
 ###################################################################################################################################
 ############################################################### Home ###############################################################
         self.button_image_Home = PhotoImage(
@@ -256,11 +256,13 @@ class StartPage(Frame):
             file=relative_to_assets("button_5.png"))
         button_Home2 = Button(self, image=self.button_image_Home2, borderwidth=0, highlightthickness=0, bg="#FFE0D0",
                               activebackground="#FFE0D0", command=lambda: controller.show_frame("StartPage"), relief="flat")
-        button_Home2.place(x=129.0, y=166.0, width=118.0, height=24.0)
+        button_Home2.place(x=129.0, y=156.0, width=118.0, height=37.0)
 ###################################################################################################################################
 
         self.image_image_2 = PhotoImage(file=relative_to_assets("image_2.png"))
         self.canvas.create_image(950.0, 60.0, image=self.image_image_2)
+        self.image_image_home = PhotoImage(file=relative_to_assets("image_9.png"))
+        self.canvas.create_image(1050.0, 275.0, image=self.image_image_home)
 
 
 ################################################################ Toggle Button###############################################################
@@ -275,161 +277,31 @@ class StartPage(Frame):
         self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
         self.canvas.create_image(300.5, 54.5, image=self.entry_image_1)
 
-############################################################################ Profile Button ###########################################################################
-
-        # ฟังก์ชันสำหรับเปิดไฟล์และเปลี่ยนภาพของปุ่ม
-        def change_button_image():
-            # เปิดไฟล์และเลือกภาพ
-            file_path = filedialog.askopenfilename(
-                filetypes=[("Image Files", "*.png;*.jpg;*.jpeg;*.gif")]
-            )
-
-            if file_path:  # ถ้าเลือกไฟล์สำเร็จ
-                # ใช้ Pillow ในการเปิดไฟล์ภาพ
-                image = Image.open(file_path)
-
-                # ขนาดของวงกลมที่ต้องการ (ขนาดเดียวกับปุ่ม)
-                button_width = 210
-                button_height = 210
-                # เลือกขนาดที่เล็กที่สุด
-                size = min(button_width, button_height)
-
-                # ปรับขนาดของภาพให้มีขนาดเท่ากับวงกลม
-                image = image.resize((size, size), Image.Resampling.LANCZOS)
-
-                # สร้างมาสก์ (mask) เป็นวงกลม
-                mask = Image.new('L', (size, size), 0)  # สร้างมาสก์สีดำ
-                draw = ImageDraw.Draw(mask)
-
-                # วาดวงกลมที่เต็มพื้นที่มาสก์
-                draw.ellipse((0, 0, size, size), fill=255)
-
-                # ใช้มาสก์เพื่อให้ภาพมีรูปร่างวงกลม
-                image.putalpha(mask)
-
-                # วาดกรอบรอบๆ รูปวงกลมที่ขอบของวงกลม
-                border_thickness = 5  # ความหนาของกรอบ
-                draw = ImageDraw.Draw(image)
-
-                # วาดกรอบวงกลมที่ตรงขอบ
-                draw.ellipse(
-                    (border_thickness // 2, border_thickness // 2, size -
-                     border_thickness // 2, size - border_thickness // 2),
-                    outline="black",  # สีกรอบ
-                    width=border_thickness  # ความหนาของกรอบ
-                )
-
-                # แปลงให้เป็นรูปแบบที่ Tkinter รองรับ
-                new_image = ImageTk.PhotoImage(image)
-
-                # เปลี่ยนภาพของปุ่ม
-                self.button_Profile.config(image=new_image)
-                self.button_Profile.image = new_image  # เก็บอ้างอิงของภาพไว้เพื่อไม่ให้ถูกลบ
-
-        # ปุ่ม Profile เริ่มต้น
-        self.button_image_Profile = PhotoImage(
-            file=relative_to_assets("button_11.png"))
-        self.button_Profile = Button(
-            self,
-            image=self.button_image_Profile,
-            borderwidth=0,
-            highlightthickness=0,
-            bg="#f0ecec",
-            activebackground="#f0ecec",
-            command=change_button_image,  # เรียกฟังก์ชันเมื่อคลิกปุ่ม
-            relief="flat")
-        self.button_Profile.place(x=350.0, y=155.0, width=210.0, height=210.0)
-
-        # สร้าง Label สำหรับแสดงชื่อ-นามสกุล
-        self.entry_2 = Label(self, text="ชื่อ-นามสกุล",
-                             fg="#000000", font=("Arial", 32), bd=0)
-        self.entry_2.place(x=618.0, y=224.0, width=375.0, height=75.0)
-
-        # สร้าง Text area สำหรับให้ใส่ข้อความ (จะซ่อนตอนแรก)
-        self.entry_text_area = Text(
-            bd=0,
-            bg="#FFFFFF",
-            fg="#000000",
-            height=1,
-            width=30,
-            highlightthickness=0
-        )
-        self.entry_text_area.place(
-            x=618.0,
-            y=224.0,
-            width=375.0,
-            height=75.0
-        )
-        self.entry_text_area.place_forget()  # ซ่อนตอนแรก
-
-        # ฟังก์ชันสำหรับเปลี่ยนเป็น Text area เมื่อกดปุ่ม
-        def change_name():
-            self.entry_2.place_forget()  # ซ่อน Label
-            self.entry_text_area.place(x=618.0, y=224.0, width=375.0,
-                                       height=75.0)  # แสดง Text area
-            self.entry_text_area.config(font=("Arial", 32))
-
-            # ตั้งค่าตัวอักษรให้ตรงกลางใน Text area
-            self.entry_text_area.tag_configure("center", justify='center')
-            # ใส่ช่องว่างไว้ก่อนเพื่อให้เริ่มจากกลาง
-            self.entry_text_area.insert("1.0", " ")
-
-            # กำหนดการใช้ tag "center" กับข้อความทั้งหมด
-            self.entry_text_area.tag_add("center", "1.0", "end")
-
-        # ฟังก์ชันสำหรับยืนยันข้อความที่พิมพ์และอัพเดต Label
-        def save_name(event=None):
-            name = self.entry_text_area.get(
-                "1.0", "end-1c")  # รับข้อความจาก Text area
-            self.entry_2.config(text=name)  # เปลี่ยนข้อความใน Label
-            self.entry_text_area.place_forget()  # ซ่อน Text area
-            self.entry_2.place(x=618.0, y=224.0, width=375.0,
-                               height=75.0)  # แสดง Label ใหม่
-
-        # สร้างปุ่ม
-        self.button_image_Name = PhotoImage(
-            file=relative_to_assets("button_13.png"))
-        button_Name = Button(self,
-                             image=self.button_image_Name,
-                             borderwidth=0,
-                             highlightthickness=0,
-                             command=change_name,  # เรียกฟังก์ชัน change_name เมื่อกดปุ่ม
-                             relief="flat"
-                             )
-        button_Name.place(
-            x=1030.0,
-            y=240.0,
-            width=40.0,
-            height=40.0
-        )
-
-        # จับเหตุการณ์การกดปุ่ม Enter เพื่อยืนยัน
-        self.entry_text_area.bind("<Return>", save_name)
 ###################################################################################################################################
         # การสร้างข้อความ
         self.canvas.create_text(
-            618.0, 379.0, anchor="nw", text="บทเรียน", fill="#000000", font=("Inter", 32)
+            470.0, 379.0, anchor="nw", text="บทเรียน", fill="#000000", font=("Inter", 32)
         )
         self.canvas.create_text(
-            618.0, 671.0, anchor="nw", text="ท้าทาย", fill="#000000", font=("Inter", 32)
+            470.0, 671.0, anchor="nw", text="ท้าทาย", fill="#000000", font=("Inter", 32)
         )
         self.canvas.create_text(
-            649.0, 435.0, anchor="nw", text="บุคคล", fill="#000000", font=("Inter", 32 * -1)
+            539.0, 435.0, anchor="nw", text="บุคคล", fill="#000000", font=("Inter", 32 * -1)
         )
         self.canvas.create_text(
-            649.0, 480.0, anchor="nw", text="สี", fill="#000000", font=("Inter", 32 * -1)
+            539.0, 480.0, anchor="nw", text="สี", fill="#000000", font=("Inter", 32 * -1)
         )
         self.canvas.create_text(
-            649.0, 525.0, anchor="nw", text="เลข", fill="#000000", font=("Inter", 32 * -1)
+            539.0, 525.0, anchor="nw", text="เลข", fill="#000000", font=("Inter", 32 * -1)
         )
         self.canvas.create_text(
-            649.0, 570.0, anchor="nw", text="วัน", fill="#000000", font=("Inter", 32 * -1)
+            539.0, 570.0, anchor="nw", text="วัน", fill="#000000", font=("Inter", 32 * -1)
         )
         self.canvas.create_text(
-            649.0, 615.0, anchor="nw", text="เวลา", fill="#000000", font=("Inter", 32 * -1)
+            539.0, 615.0, anchor="nw", text="เวลา", fill="#000000", font=("Inter", 32 * -1)
         )
         self.canvas.create_text(
-            647.0, 727.0, anchor="nw", text="บุคคล", fill="#000000", font=("Inter", 32 * -1)
+            537.0, 727.0, anchor="nw", text="บุคคล", fill="#000000", font=("Inter", 32 * -1)
         )
         self.score_text_person = self.canvas.create_text(
             1754.0, 727.0, anchor="nw", text="0/10", fill="#000000", font=("Inter", 30 * -1)
@@ -448,16 +320,16 @@ class StartPage(Frame):
             1753.0, 907.0, anchor="nw", text="0/10", fill="#000000", font=("Inter", 30 * -1))
 
         self.canvas.create_text(
-            647.0, 772.0, anchor="nw", text="สี", fill="#000000", font=("Inter", 32 * -1))
+            537.0, 772.0, anchor="nw", text="สี", fill="#000000", font=("Inter", 32 * -1))
 
         self.canvas.create_text(
-            647.0, 817.0, anchor="nw", text="เลข", fill="#000000", font=("Inter", 32 * -1))
+            537.0, 817.0, anchor="nw", text="เลข", fill="#000000", font=("Inter", 32 * -1))
 
         self.canvas.create_text(
-            647.0, 862.0, anchor="nw", text="วัน", fill="#000000", font=("Inter", 32 * -1))
+            537.0, 862.0, anchor="nw", text="วัน", fill="#000000", font=("Inter", 32 * -1))
 
         self.canvas.create_text(
-            647.0, 907.0, anchor="nw", text="เวลา", fill="#000000", font=("Inter", 32 * -1))
+            537.0, 907.0, anchor="nw", text="เวลา", fill="#000000", font=("Inter", 32 * -1))
         
         self.circle_items = {
             "บุคคล": self.canvas.create_oval(1785.0, 444.0, 1807.0, 466.0, fill="#FF0000", outline=""),
@@ -510,13 +382,18 @@ class StartPage(Frame):
             self.progress_bars[category] = self.create_rounded_rectangle(self.canvas, 1479.0, y_start,
                                                                          1479.0 + bar_width, y_start + 22,
                                                                          radius=10, fill="#D9D9D9", outline="")
-        else:
+        #else:
             # อัปเดตโปรเกรสบาร์ที่มีอยู่แล้ว
-            self.canvas.coords(self.progress_bars[category], 1479.0, y_start, 1479.0 + bar_width, y_start + 22)
+            #print(category)
+            #print(bar_width)
+            #print(y_start)
+            #self.canvas.coords(self.progress_bars[category], 1479.0, y_start, 1479.0 + bar_width, y_start + 22)
 
-        # วาดโปรเกรสบาร์ใหม่ (สีขาว)
+        # วาดโปรเกรสบาร์ใหม่ (สีส้ม)
         self.create_rounded_rectangle(self.canvas, 1479.0, y_start, 1479.0 + bar_width, y_start + 22,
                                       radius=10, fill="#ff8000", outline="")
+
+
 
 
         
@@ -565,7 +442,7 @@ class LearningPage(Frame):
             file=relative_to_assets("button_2.png"))
         button_exit = Button(self, image=self.button_image_exit, borderwidth=0, highlightthickness=0,
                              bg="#FFE0D0", activebackground="#FFE0D0", relief="flat", command=exit_program)
-        button_exit.place(x=126.0, y=1017.0, width=118.0, height=24.0)
+        button_exit.place(x=126.0, y=1007.0, width=118.0, height=37.0)
 
         self.button_image_exit2 = PhotoImage(
             file=relative_to_assets("button_8.png"))
@@ -601,7 +478,7 @@ class LearningPage(Frame):
                                    bg="#FFE0D0", activebackground="#FFE0D0",
                                    command=lambda: [controller.show_frame("ChallengeSelectPage"), controller.frames["ChallengeSelectPage"]],
                                    relief="flat")
-        button_Challenge2.place(x=129.0, y=338.0, width=118.0, height=24.0)
+        button_Challenge2.place(x=129.0, y=328.0, width=118.0, height=37.0)
 ###################################################################################################################################
 ############################################################### Learning ###############################################################
         self.button_image_Learning = PhotoImage(
@@ -620,7 +497,7 @@ class LearningPage(Frame):
                                   command=lambda: [controller.show_frame(
                                       "LearningPage"), controller.frames["LearningPage"].reset_page()],
                                   relief="flat")
-        button_Learning2.place(x=129.0, y=252.0, width=118.0, height=24.0)
+        button_Learning2.place(x=129.0, y=242.0, width=118.0, height=37.0)
 ###################################################################################################################################
 ############################################################### Home ###############################################################
         self.button_image_Home = PhotoImage(
@@ -633,7 +510,7 @@ class LearningPage(Frame):
             file=relative_to_assets("button_5.png"))
         button_Home2 = Button(self, image=self.button_image_Home2, borderwidth=0, highlightthickness=0, bg="#FFE0D0",
                               activebackground="#FFE0D0", command=lambda: controller.show_frame("StartPage"), relief="flat")
-        button_Home2.place(x=129.0, y=166.0, width=118.0, height=24.0)
+        button_Home2.place(x=129.0, y=156.0, width=118.0, height=37.0)
 ###################################################################################################################################
 
         self.image_image_2 = PhotoImage(file=relative_to_assets("image_2.png"))
@@ -649,8 +526,8 @@ class LearningPage(Frame):
         button_Toggle.place(x=23.0, y=18.0, width=72.0, height=72.0)
 
         # สร้าง Entry
-        self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
-        self.canvas.create_image(300.5, 54.5, image=self.entry_image_1)
+        self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_3.png"))
+        self.canvas.create_image(190.5, 54.5, image=self.entry_image_1)
 ###################################################################################################################################
 ################################################################ Choice Learning ###############################################################
 
@@ -723,6 +600,7 @@ class LearningPageVideo(Frame):
 
         # รูปภาพที่จะแสดง
         self.image_id = None
+        self.entry_id = None
 
         # สี่เหลี่ยมที่จะแสดง
         self.rectangle_ids = []
@@ -736,7 +614,7 @@ class LearningPageVideo(Frame):
             file=relative_to_assets("button_2.png"))
         button_exit = Button(self, image=self.button_image_exit, borderwidth=0, highlightthickness=0,
                              bg="#FFE0D0", activebackground="#FFE0D0", relief="flat", command=exit_program)
-        button_exit.place(x=126.0, y=1017.0, width=118.0, height=24.0)
+        button_exit.place(x=126.0, y=1007.0, width=118.0, height=37.0)
 
         self.button_image_exit2 = PhotoImage(
             file=relative_to_assets("button_8.png"))
@@ -764,7 +642,7 @@ class LearningPageVideo(Frame):
                                   bg="#FFE0D0", activebackground="#FFE0D0",
                                   command=lambda: [controller.show_frame("ChallengeSelectPage"), controller.frames["ChallengeSelectPage"]],
                                   relief="flat")
-        button_Challenge.place(x=34.0, y=325.0, width=60.0, height=60.0)
+        button_Challenge.place(x=34.0, y=675.0, width=60.0, height=60.0)
 
         self.button_image_Challenge2 = PhotoImage(
             file=relative_to_assets("button_3.png"))
@@ -772,7 +650,7 @@ class LearningPageVideo(Frame):
                                    bg="#FFE0D0", activebackground="#FFE0D0",
                                    command=lambda: [controller.show_frame("ChallengeSelectPage"), controller.frames["ChallengeSelectPage"]],
                                    relief="flat")
-        button_Challenge2.place(x=129.0, y=338.0, width=118.0, height=24.0)
+        button_Challenge2.place(x=129.0, y=678.0, width=118.0, height=37.0)
 ###################################################################################################################################
 ############################################################### Learning ###############################################################
         self.button_image_Learning = PhotoImage(
@@ -791,7 +669,10 @@ class LearningPageVideo(Frame):
                                   command=lambda: [controller.show_frame(
                                       "LearningPage"), controller.frames["LearningPageVideo"].reset_page()],
                                   relief="flat")
-        button_Learning2.place(x=129.0, y=252.0, width=118.0, height=24.0)
+        button_Learning2.place(x=129.0, y=242.0, width=118.0, height=37.0)
+        self.image_image_choice = PhotoImage(file=relative_to_assets("image_7.png"))
+        self.canvas.create_image(80.0, 463.5, image=self.image_image_choice)
+
 ###################################################################################################################################
 ############################################################### Home ###############################################################
         self.button_image_Home = PhotoImage(
@@ -804,7 +685,7 @@ class LearningPageVideo(Frame):
             file=relative_to_assets("button_5.png"))
         button_Home2 = Button(self, image=self.button_image_Home2, borderwidth=0, highlightthickness=0, bg="#FFE0D0",
                               activebackground="#FFE0D0", command=lambda: controller.show_frame("StartPage"), relief="flat")
-        button_Home2.place(x=129.0, y=166.0, width=118.0, height=24.0)
+        button_Home2.place(x=129.0, y=156.0, width=118.0, height=37.0)
 ###################################################################################################################################
 
         self.image_image_2 = PhotoImage(file=relative_to_assets("image_2.png"))
@@ -820,8 +701,12 @@ class LearningPageVideo(Frame):
         button_Toggle.place(x=23.0, y=18.0, width=72.0, height=72.0)
 
         # สร้าง Entry
-        self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
-        self.canvas.create_image(300.5, 54.5, image=self.entry_image_1)
+        self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_3.png"))
+        self.canvas.create_image(190.5, 54.5, image=self.entry_image_1)
+
+        # สร้าง Entry
+        #self.entry_image_change = PhotoImage(file=relative_to_assets("entry_5.png"))
+        #self.canvas.create_image(890.5, 54.5, image=self.entry_image_change)
 ###################################################################################################################################
 ################################################################ Choice Learning ###############################################################
 
@@ -829,15 +714,15 @@ class LearningPageVideo(Frame):
         self.button_image_12 = PhotoImage(
             file=relative_to_assets("button_19.png"))
         button_12 = Button(self, image=self.button_image_12, borderwidth=0, bg="#f9e3dd", highlightthickness=0,
-                           command=self.move_second_dropdown_forward, relief="flat")
-        button_12.place(x=1416.0, y=455.0, width=279.0, height=211.0)
+                           command=self.move_option_forward, relief="flat")
+        button_12.place(x=1600.0, y=510.0, width=155.53, height=155.53)
 
         # ปุ่มที่สอง
         self.button_image_13 = PhotoImage(
             file=relative_to_assets("button_20.png"))
         button_13 = Button(self, image=self.button_image_13, borderwidth=0, bg="#f9e3dd", highlightthickness=0,
-                           command=self.move_second_dropdown_backward, relief="flat")
-        button_13.place(x=531.0, y=455.0, width=280.0, height=212.0)
+                           command=self.move_option_backward, relief="flat")
+        button_13.place(x=430.0, y=510.0, width=155.53, height=155.53)
 
         self.default_elements = [button_12, button_13]
 
@@ -845,34 +730,35 @@ class LearningPageVideo(Frame):
         """ ฟังก์ชันนี้จะถูกเรียกเมื่อแสดงหน้า StartPage """
         self.reset_page()  # เรียกใช้การรีเซ็ตข้อมูลในหน้านี้
 
-    def update_second_dropdown(self, selected_category):
-        """ ฟังก์ชันนี้จะอัพเดต Dropdown ที่สองตามค่าที่เลือกใน Dropdown แรก """
+    #def update_second_dropdown(self, selected_category):
+    #    """ ฟังก์ชันนี้จะอัพเดต Dropdown ที่สองตามค่าที่เลือกใน Dropdown แรก """
         # รีเซ็ตค่า current_index เมื่อเลือกหมวดหมู่ใหม่
-        self.current_index = 0  # รีเซ็ตตัวเลือกใน second dropdown เป็นตัวแรก
+    #    self.current_index = 0  # รีเซ็ตตัวเลือกใน second dropdown เป็นตัวแรก
 
         # ดึงตัวเลือกจาก dictionary ตามหมวดหมู่ที่เลือก
-        options = self.dropdown_data[selected_category]
+    #    options = self.dropdown_data[selected_category]
 
-        self.selected_option.set(options[0])  # รีเซ็ตค่าเริ่มต้น
-        menu = self.second_dropdown_menu["menu"]
-        menu.delete(0, "end")  # ลบตัวเลือกเดิม
-        for index, option in enumerate(options):
+    #    self.selected_option.set(options[0])  # รีเซ็ตค่าเริ่มต้น
+    #    menu = self.second_dropdown_menu["menu"]
+    #    menu.delete(0, "end")  # ลบตัวเลือกเดิม
+    #    for index, option in enumerate(options):
             # ปรับ lambda ให้มีการอัพเดต current_index เมื่อเลือกคำ
-            menu.add_command(label=option, command=lambda value=option,
-                             idx=index: self.update_selected_option(value, idx))
+    #        menu.add_command(label=option, command=lambda value=option,
+    #                         idx=index: self.update_selected_option(value, idx))
 
         # อัปเดตข้อความที่แสดงใน canvas เมื่อหมวดหมู่เปลี่ยน
-        self.update_text(selected_category)
-        self.load_video_by_option(options[0])
+    #    self.update_text(selected_category)
+    #    self.load_video_by_option(options[0])
 
-    def update_text(self, selected_category):
-        """ ฟังก์ชันนี้จะอัพเดตข้อความที่แสดงใน canvas ตามหมวดหมู่ที่เลือก """
-        if hasattr(self, 'text_id') and self.text_id:
-            self.canvas.delete(self.text_id)  # ลบข้อความเดิม
+    #def update_text(self, selected_category):
+    #    """ ฟังก์ชันนี้จะอัพเดตข้อความที่แสดงใน canvas ตามหมวดหมู่ที่เลือก """
+    #    if hasattr(self, 'text_id') and self.text_id:
+    #        self.canvas.delete(self.text_id)  # ลบข้อความเดิม
 
+        
         # แสดงข้อความใหม่ตามหมวดหมู่ที่เลือก
-        self.text_id = self.canvas.create_text(565.0, 199.0, anchor="nw", text=f"บทเรียน: {selected_category}",
-                                               fill="#FF7F00", font=("Inter", 48 * -1))
+    #    self.entry_id = self.canvas.create_text(565.0, 199.0, anchor="nw", text=f"บทเรียน: {selected_category}",
+    #                                           fill="#FF7F00", font=("Inter", 48 * -1))
 
     def reset_page(self):
         """ รีเซ็ตข้อมูลหน้า """
@@ -897,33 +783,48 @@ class LearningPageVideo(Frame):
             self.second_dropdown_menu.destroy()
             self.second_dropdown_menu = None
 
-    def move_second_dropdown_forward(self):
-        """ ฟังก์ชันนี้จะเลื่อนตัวเลือกใน second dropdown ไปข้างหน้า """
-        options = self.dropdown_data[self.selected_Category.get()]
-        self.current_index = (self.current_index + 1) % len(options)
+    #def move_second_dropdown_forward(self):
+    #    """ ฟังก์ชันนี้จะเลื่อนตัวเลือกใน second dropdown ไปข้างหน้า """
+    #    options = self.dropdown_data[self.selected_Category.get()]
+    #    self.current_index = (self.current_index + 1) % len(options)
         # อัปเดตค่าใน dropdown
-        self.selected_option.set(options[self.current_index])
-        self.load_video_by_option(
-            options[self.current_index])  # โหลดวิดีโอใหม่
+    #    self.selected_option.set(options[self.current_index])
+    #    self.load_video_by_option(
+    #        options[self.current_index])  # โหลดวิดีโอใหม่
 
-    def move_second_dropdown_backward(self):
-        """ ฟังก์ชันนี้จะเลื่อนตัวเลือกใน second dropdown ย้อนกลับ """
-        options = self.dropdown_data[self.selected_Category.get()]
-        self.current_index = (self.current_index - 1) % len(options)
+    #def move_second_dropdown_backward(self):
+    #    """ ฟังก์ชันนี้จะเลื่อนตัวเลือกใน second dropdown ย้อนกลับ """
+    #    options = self.dropdown_data[self.selected_Category.get()]
+    #    self.current_index = (self.current_index - 1) % len(options)
         # อัปเดตค่าใน dropdown
-        self.selected_option.set(options[self.current_index])
-        self.load_video_by_option(
-            options[self.current_index])  # โหลดวิดีโอใหม่
+    #    self.selected_option.set(options[self.current_index])
+    #    self.load_video_by_option(
+    #        options[self.current_index])  # โหลดวิดีโอใหม่
+    def move_option_forward(self):
+        """ ฟังก์ชันเลื่อนตัวเลือกไปข้างหน้า """
+        options = self.dropdown_data[self.current_category]  # ดึงตัวเลือกของหมวดหมู่ปัจจุบัน
+        self.current_index = (self.current_index + 1) % len(options)  # เลื่อนตำแหน่งตัวเลือกไปข้างหน้า
+        self.load_video_by_option(options[self.current_index])  # อัปเดตและโหลดวิดีโอใหม่
 
-    def update_selected_option(self, value, idx):
+    def move_option_backward(self):
+        """ ฟังก์ชันเลื่อนตัวเลือกย้อนกลับ """
+        options = self.dropdown_data[self.current_category]  # ดึงตัวเลือกของหมวดหมู่ปัจจุบัน
+        self.current_index = (self.current_index - 1) % len(options)  # เลื่อนตำแหน่งตัวเลือกย้อนกลับ
+        self.load_video_by_option(options[self.current_index])  # อัปเดตและโหลดวิดีโอใหม่
+    
+
+    def update_selected_option(self, word):
         """ อัปเดตค่าที่เลือกใน dropdown """
-        self.selected_option.set(value)
-        self.current_index = idx
+        options = self.dropdown_data[self.current_category] 
+        # ตั้งชื่อวิดีโอที่ตรงกับคำที่เลือก
+        if word in options:
+            # หาตำแหน่ง index ของคำที่เลือก
+            self.current_index = options.index(word)  # ค้นหาตำแหน่งของคำใน list
+            # เรียกใช้ฟังก์ชันเพื่อโหลดวิดีโอใหม่ตามคำที่เลือก
+            self.load_video_by_option(word)  # โหลดวิดีโอใหม่จากคำที่เลือก
+        else:
+            print(f"คำ {word} ไม่อยู่ในรายการคำที่มีในหมวด {self.current_category}")
 
-        # โหลดวิดีโอใหม่ตามตัวเลือก
-        video_path = f"D:/ProgramProject/build2/build/assets/frame0/Video/{
-            value}.mp4"
-        self.change_video(video_path)
 
     def update_video(self):
         """ฟังก์ชันที่ใช้เล่นวิดีโอใน Tkinter"""
@@ -938,9 +839,10 @@ class LearningPageVideo(Frame):
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
                 # คำนวณขนาดใหม่ (ปรับขนาดตามต้องการ)
-                scale_factor = 0.7  # ขยายหรือย่อ
-                new_width = int(frame.shape[1] * scale_factor)
-                new_height = int(frame.shape[0] * scale_factor)
+                scale_factor_x = 0.45  # ขยายหรือย่อ
+                scale_factor_y = 0.55
+                new_width = int(frame.shape[1] * scale_factor_x)
+                new_height = int(frame.shape[0] * scale_factor_y)
                 frame = cv2.resize(frame, (new_width, new_height))
 
                 # แปลงเป็นรูปภาพที่ Tkinter สามารถแสดงได้
@@ -949,7 +851,7 @@ class LearningPageVideo(Frame):
                 self.image_tk = img_tk  # เก็บการอ้างอิง
 
                 # แสดงภาพใน canvas
-                self.canvas.create_image(1114.0, 561.0, image=self.image_tk)
+                self.canvas.create_image(1090.0, 595.0, image=self.image_tk)
 
                 # ตั้งเวลาการอัปเดต (เก็บ ID ของ after ไว้)
                 self.video_update_id = self.after(30, self.update_video)
@@ -973,8 +875,7 @@ class LearningPageVideo(Frame):
             self.video_capture.release()
 
         # โหลดวิดีโอใหม่
-        video_path = f"D:/ProgramProject/build2/build/assets/frame0/Video/{
-            selected_option}.mp4"
+        video_path = f"assets/frame0/Video/{selected_option}.mp4"
         self.change_video(video_path)
 
     def change_video(self, new_video_path):
@@ -1004,16 +905,30 @@ class LearningPageVideo(Frame):
         self.reset_page()
 
         # ตัวแปรเก็บตำแหน่งปัจจุบันในรายการของ second dropdown
-        self.current_index = -1  # เริ่มต้นที่ตัวแรก
+        self.current_index = 0  # เริ่มต้นที่ตัวแรก
+        x_position = 110.0  # ตำแหน่ง X ของปุ่ม
+        y_position_start = 305.0  # ตำแหน่ง Y เริ่มต้น
+        y_spacing = 33.5 # ระยะห่างระหว่างปุ่มในแกน Y
 
         # แสดงข้อความใหม่ โดยใช้ anchor='center' เพื่อให้ข้อความอยู่กลาง
-        self.text_id = self.canvas.create_text(668.0, 226.0, anchor="center", text=f"บทเรียน {button_name}",
-                                               fill="#FF7F00", font=("Inter", 48 * -1))
+        #self.text_id = self.canvas.create_text(668.0, 226.0, anchor="center", text=f"บทเรียน {button_name}",
+        #                                       fill="#FF7F00", font=("Inter", 48 * -1))
+        entry_image_path = f"หมวด_{button_name}.png"  # สมมติว่าชื่อไฟล์รูปภาพขึ้นกับชื่อบทเรียน
+        entry_image_change = PhotoImage(file=relative_to_assets(entry_image_path))
+        
+        if entry_image_path in ["หมวด_สี.png", "หมวด_วัน.png"]:
+            y_position = 55
+        else:
+            y_position = 60
+
+        # แสดงรูปภาพในตำแหน่งที่ต้องการ
+        self.entry_id = self.canvas.create_image(1100.0, y_position, anchor="center", image=entry_image_change)
+        self.entry_image_change = entry_image_change  # เก็บ reference เพื่อป้องกันรูปหาย
 
         # เพิ่มรูปภาพใหม่
-        self.image_image_4 = PhotoImage(file=relative_to_assets("image_4.png"))
+        self.image_image_4 = PhotoImage(file=relative_to_assets("image_6.png"))
         self.image_id = self.canvas.create_image(
-            1114.0, 561.0, image=self.image_image_4)
+            1090.0, 595.0, image=self.image_image_4)
 
         # ข้อมูลของ Category และคำที่จะแสดงใน Dropdown ที่สอง
         self.dropdown_data = {
@@ -1023,43 +938,59 @@ class LearningPageVideo(Frame):
             "บุคคล": ["บุคคล", "ฉัน", "คุณ", "เขา", "พวกเรา", "ผู้หญิง", "ผู้ชาย", "เด็ก", "ผู้ใหญ่", "คนแก่"],
             "สี": ["ส้ม", "แดง", "เหลือง", "ฟ้า", "น้ำเงิน", "เขียว", "ขาว", "ดำ", "ทอง", "เทา"]
         }
+        self.current_category = button_name
+        word_list = self.dropdown_data.get(button_name, [])
+
+        # สร้างปุ่มสำหรับแต่ละคำ
+        for index, word in enumerate(word_list[:10]):  # จำกัดจำนวนคำที่ 10 คำ
+            lesson_button = Button(self, text=word, font=("Inter", 16,"bold"),
+                                   fg="#ff8100", bg="#ffe0d0", borderwidth=0,
+                                   highlightthickness=0, relief="flat",anchor="w",padx=10,
+                                   command=lambda w=word: self.update_selected_option(w))  # ส่งคำไปยังฟังก์ชัน play_video
+            lesson_button.place(x=x_position, y=y_position_start + index * y_spacing, 
+                                width=150.0, height=40.0)
 
         # สร้าง Dropdown แรกสำหรับ Category
-        self.dropdown_Category = ["วัน", "เวลา", "เลข", "บุคคล", "สี"]
-        selected_index = self.dropdown_Category.index(
-            button_name) if button_name in self.dropdown_Category else 0
+        #self.dropdown_Category = ["วัน", "เวลา", "เลข", "บุคคล", "สี"]
+        #selected_index = self.dropdown_Category.index(
+        #    button_name) if button_name in self.dropdown_Category else 0
         # ตั้งค่าเริ่มต้นตาม index ของ button_name
-        self.selected_Category = StringVar(
-            value=self.dropdown_Category[selected_index])
-        self.category_menu = OptionMenu(
-            self, self.selected_Category, *self.dropdown_Category, command=self.update_second_dropdown)
-        self.category_menu.place(x=550.0, y=285.0, width=217.0, height=50.0)
+        # self.selected_Category = StringVar(
+        #    value=self.dropdown_Category[selected_index])
+        #self.category_menu = OptionMenu(
+        #    self, self.selected_Category, *self.dropdown_Category, command=self.update_second_dropdown)
+        #self.category_menu.place(x=550.0, y=285.0, width=217.0, height=50.0)
 
         # สร้าง Dropdown ที่สอง (จะอัพเดตตามการเลือกของ Category)
         # ค่าเริ่มต้นของ Dropdown ที่สอง
-        self.selected_option = StringVar(value="Select an option")
-        self.second_dropdown_menu = OptionMenu(
-            self, self.selected_option, *self.dropdown_data[self.selected_Category.get()], command=self.load_video_by_option)
-        self.second_dropdown_menu.place(
-            x=1025.0, y=958.0, width=217.0, height=50.0)
+        #self.selected_option = StringVar(value="Select an option")
+        #self.second_dropdown_menu = OptionMenu(
+        #    self, self.selected_option, *self.dropdown_data[self.selected_Category.get()], command=self.load_video_by_option)
+        #self.second_dropdown_menu.place(
+        #    x=1025.0, y=958.0, width=217.0, height=50.0)
 
         # เก็บข้อมูลของปุ่มต่างๆ
         self.default_elements = []
 
         # เพิ่มไฟล์วิดีโอให้กับ VideoCapture
         # ตอนนี้ให้เลือกไฟล์วิดีโอตามที่เลือกจาก Dropdown ที่ 2
-        print(self.selected_option.get())
-        video_option = self.selected_option.get()  # เลือกตัวเลือกจาก Dropdown 2
-        self.current_category = button_name
-
-        # ตั้งชื่อวิดีโอที่ตรงกับตัวเลือก
-        video_path = f"D:/ProgramProject/build2/build/assets/frame0/Video/{ 
-            video_option}.mp4"
-        self.video_capture = cv2.VideoCapture(video_path)
-
-        if not self.video_capture.isOpened():
-            print("ไม่สามารถเปิดไฟล์วิดีโอได้")
-            return
+        #print(self.selected_option.get())
+        #video_option = self.selected_option.get()  # เลือกตัวเลือกจาก Dropdown 2
+        if word_list:
+            # เลือกคำแรกในหมวดหมู่
+            video_option = word_list[self.current_index]
+        
+            # ตั้งชื่อวิดีโอที่ตรงกับตัวเลือก
+            video_path = f"assets/frame0/Video/{video_option}.mp4"
+            self.video_capture = cv2.VideoCapture(video_path)
+            video_name = video_path.split("/")[-1].replace(".mp4", "")
+            self.controller.mark_video_as_watched(video_name)
+        
+            # ตรวจสอบว่ามีการโหลดวิดีโอสำเร็จ
+            if not self.video_capture.isOpened():
+                print(f"ไม่สามารถโหลดวิดีโอ: {video_path}")
+            else:
+                print(f"กำลังเล่นวิดีโอ: {video_option}")
 
         self.update_video()  # เรียกใช้ฟังก์ชัน update_video เพื่อเริ่มการแสดงผลวิดีโอ
 ###################################################################################################################################
@@ -1086,7 +1017,7 @@ class ChallengeSelectPage(Frame):
             file=relative_to_assets("button_2.png"))
         button_exit = Button(self, image=self.button_image_exit, borderwidth=0, highlightthickness=0,
                              bg="#FFE0D0", activebackground="#FFE0D0", relief="flat", command=exit_program)
-        button_exit.place(x=126.0, y=1017.0, width=118.0, height=24.0)
+        button_exit.place(x=126.0, y=1007.0, width=118.0, height=37.0)
 
         self.button_image_exit2 = PhotoImage(
             file=relative_to_assets("button_8.png"))
@@ -1122,7 +1053,7 @@ class ChallengeSelectPage(Frame):
                                    bg="#FFE0D0", activebackground="#FFE0D0",
                                    command=lambda: [controller.show_frame("ChallengeSelectPage"), controller.frames["ChallengeSelectPage"]],
                                    relief="flat")
-        button_Challenge2.place(x=129.0, y=338.0, width=118.0, height=24.0)
+        button_Challenge2.place(x=129.0, y=328.0, width=118.0, height=37.0)
 ###################################################################################################################################
 ############################################################### Learning ###############################################################
         self.button_image_Learning = PhotoImage(
@@ -1139,7 +1070,7 @@ class ChallengeSelectPage(Frame):
                           bg="#FFE0D0", activebackground="#FFE0D0", 
                           command=lambda: [controller.show_frame("LearningPage"), controller.frames["LearningPage"].reset_page()],
                           relief="flat")
-        button_Learning2.place(x=129.0, y=252.0, width=118.0, height=24.0)
+        button_Learning2.place(x=129.0, y=242.0, width=118.0, height=37.0)
 ###################################################################################################################################
 ############################################################### Home ###############################################################
         self.button_image_Home = PhotoImage(
@@ -1152,7 +1083,7 @@ class ChallengeSelectPage(Frame):
             file=relative_to_assets("button_5.png"))
         button_Home2 = Button(self, image=self.button_image_Home2, borderwidth=0, highlightthickness=0, bg="#FFE0D0",
                               activebackground="#FFE0D0", command=lambda: controller.show_frame("StartPage"), relief="flat")
-        button_Home2.place(x=129.0, y=166.0, width=118.0, height=24.0)
+        button_Home2.place(x=129.0, y=156.0, width=118.0, height=37.0)
 ###################################################################################################################################
 
         self.image_image_2 = PhotoImage(file=relative_to_assets("image_2.png"))
@@ -1166,8 +1097,8 @@ class ChallengeSelectPage(Frame):
         button_Toggle.place(x=23.0, y=18.0, width=72.0, height=72.0)
 
         # สร้าง Entry
-        self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
-        self.canvas.create_image(300.5, 54.5, image=self.entry_image_1)
+        self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_4.png"))
+        self.canvas.create_image(190.5, 54.5, image=self.entry_image_1)
 ###################################################################################################################################
 ################################################################ Choice Learning ###############################################################
         
@@ -1220,12 +1151,13 @@ class ChallengePage(Frame):
         Frame.__init__(self, parent)
         
         self.controller = controller
-        self.remaining_time = 3  # เวลาเริ่มต้น
+        self.remaining_time = 5  # เวลาเริ่มต้น
         self.timer_running = False  # ตัวจับเวลายังไม่ทำงาน
         self.time_out_count = 0  # ตัวแปรเก็บจำนวนครั้งที่เวลาหมด
         self.circle_changes = 0  # ตัวแปรสำหรับนับจำนวนการเปลี่ยนสีวงกลม
         self.score_red = 0
         self.score = 5
+        self.score_show = 0
         self.score_list1 = 0
         self.score_list2 = 0
         self.circle_colors = []
@@ -1267,18 +1199,21 @@ class ChallengePage(Frame):
         # Use `place()` to set the exact position of the camera feed
         self.label_img.place(x=645, y=365)  # Example position, adjust as necessary
         
-        self.image_1 = PhotoImage(file=relative_to_assets("image_3.png"))
-        self.canvas.create_image(1096.0, 665.0, image=self.image_1)
+        self.image_1 = PhotoImage(file=relative_to_assets("image_12.png"))
+        self.canvas.create_image(1096.0, 595.0, image=self.image_1)
         # สร้างภาพพื้นหลังก่อน (image_5)
-        self.image_image_5 = PhotoImage(file=relative_to_assets("image_5.png"))
-        self.background_image = self.canvas.create_image(1000.0, 630.0, image=self.image_image_5)
+        self.image_image_5 = PhotoImage(file=relative_to_assets("image_10.png"))
+        self.background_image = self.canvas.create_image(1000.0, 595.0, image=self.image_image_5)
+        self.image_image_11 = PhotoImage(file=relative_to_assets("image_11.png"))
+        self.background_image2 = self.canvas.create_image(1810.0, 595.0, image=self.image_image_11)
          # สร้างวงกลม (แทนที่ create_rounded_rectangle ด้วย create_oval)
         self.circle_items = []
-        self.circle_items.append(self.canvas.create_oval(865.0-89, 967.0, 903.0-89, 1005.0, fill="#FFFFFF", outline=""))
-        self.circle_items.append(self.canvas.create_oval(968.0-89, 967.0, 1006.0-89, 1005.0, fill="#FFFFFF", outline=""))
-        self.circle_items.append(self.canvas.create_oval(1071.0-89, 967.0, 1109.0-89, 1005.0, fill="#FFFFFF", outline=""))
-        self.circle_items.append(self.canvas.create_oval(1174.0-89, 967.0, 1212.0-89, 1005.0, fill="#FFFFFF", outline=""))
-        self.circle_items.append(self.canvas.create_oval(1277.0-89, 967.0, 1315.0-89, 1005.0, fill="#FFFFFF", outline=""))
+        self.circle_items.append(self.canvas.create_oval(1600, 380, 1640, 420, fill="#D9D9D9", outline=""))
+        self.circle_items.append(self.canvas.create_oval(1600, 480, 1640, 520, fill="#D9D9D9", outline=""))
+        self.circle_items.append(self.canvas.create_oval(1600, 580, 1640, 620, fill="#D9D9D9", outline=""))
+        self.circle_items.append(self.canvas.create_oval(1600, 680, 1640, 720, fill="#D9D9D9", outline=""))
+        self.circle_items.append(self.canvas.create_oval(1600, 780, 1640, 820, fill="#D9D9D9", outline=""))
+        self.background_rect = self.canvas.create_rectangle(410,155,1575,1037,fill="#ffffff", outline="")
         
         self.cap = None
         self.open_camera()
@@ -1294,7 +1229,7 @@ class ChallengePage(Frame):
             file=relative_to_assets("button_2.png"))
         button_exit = Button(self, image=self.button_image_exit, borderwidth=0, highlightthickness=0,
                              bg="#FFE0D0", activebackground="#FFE0D0", relief="flat", command=exit_program)
-        button_exit.place(x=126.0, y=1017.0, width=118.0, height=24.0)
+        button_exit.place(x=126.0, y=1007.0, width=118.0, height=37.0)
 
         self.button_image_exit2 = PhotoImage(
             file=relative_to_assets("button_8.png"))
@@ -1330,7 +1265,7 @@ class ChallengePage(Frame):
                                    bg="#FFE0D0", activebackground="#FFE0D0",
                                    command=lambda: [controller.show_frame("ChallengeSelectPage"), controller.frames["ChallengeSelectPage"]],
                                    relief="flat")
-        button_Challenge2.place(x=129.0, y=338.0, width=118.0, height=24.0)
+        button_Challenge2.place(x=129.0, y=325.0, width=118.0, height=37.0)
 ###################################################################################################################################
 ############################################################### Learning ###############################################################
         self.button_image_Learning = PhotoImage(
@@ -1347,7 +1282,7 @@ class ChallengePage(Frame):
                           bg="#FFE0D0", activebackground="#FFE0D0", 
                           command=lambda: [controller.show_frame("LearningPage"), controller.frames["LearningPage"].reset_page()],
                           relief="flat")
-        button_Learning2.place(x=129.0, y=252.0, width=118.0, height=24.0)
+        button_Learning2.place(x=129.0, y=242.0, width=118.0, height=37.0)
 ###################################################################################################################################
 ############################################################### Home ###############################################################
         self.button_image_Home = PhotoImage(
@@ -1360,10 +1295,10 @@ class ChallengePage(Frame):
             file=relative_to_assets("button_5.png"))
         button_Home2 = Button(self, image=self.button_image_Home2, borderwidth=0, highlightthickness=0, bg="#FFE0D0",
                               activebackground="#FFE0D0", command=lambda: controller.show_frame("StartPage"), relief="flat")
-        button_Home2.place(x=129.0, y=166.0, width=118.0, height=24.0)
+        button_Home2.place(x=129.0, y=156.0, width=118.0, height=37.0)
 ###################################################################################################################################
 
-        self.image_image_2 = PhotoImage(file=relative_to_assets("image_2.png"))
+        self.image_image_2 = PhotoImage(file=relative_to_assets("image_13.png"))
         self.canvas.create_image(950.0, 60.0, image=self.image_image_2)
 
 
@@ -1374,22 +1309,13 @@ class ChallengePage(Frame):
         button_Toggle.place(x=23.0, y=18.0, width=72.0, height=72.0)
 
         # สร้าง Entry
-        self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_1.png"))
-        self.canvas.create_image(300.5, 54.5, image=self.entry_image_1)
+        self.entry_image_1 = PhotoImage(file=relative_to_assets("entry_4.png"))
+        self.canvas.create_image(190.5, 54.5, image=self.entry_image_1)
+        
 ###################################################################################################################################
 ################################################################ Choice Learning ###############################################################
-
-        # สร้าง Text Placeholder สำหรับ "ชื่อหมวด"
-        self.title_text = self.canvas.create_text(
-            875.0,
-            175.0,
-            anchor="nw",
-            text="ชื่อหมวด",  # ข้อความเริ่มต้น
-            fill="#FF7F00",
-            font=("Inter", 64 * -1)
-        )
-
-        self.canvas.create_oval(1559.0-15, 213.0, 1706.0-15, 360.0, fill="#FFFFFF", outline="")  # วงกลมขนาดใหญ่
+        self.do_image = PhotoImage(file=relative_to_assets("image_14.png"))
+        self.canvas.create_image(1550.5, 55.5, image=self.do_image)
 
         self.timer_text = self.canvas.create_text(
             1590.0,
@@ -1399,25 +1325,48 @@ class ChallengePage(Frame):
             fill="#FF7F00",
             font=("Inter", 72 * -1)
         )
-        self.word_text = self.canvas.create_text(
-            960.0,
-            264.0,
+        self.timer_unit = self.canvas.create_text(
+            1770.0,
+            250.0,
             anchor="nw",
-            text="คำ",  # ข้อความเริ่มต้น
+            text="วินาที",
             fill="#FF7F00",
             font=("Inter", 40 * -1)
         )
-        
+        self.word_text = self.canvas.create_text(
+            1220.0,
+            57.0,
+            anchor="center",
+            text="คำ",  # ข้อความเริ่มต้น
+            fill="#FF4D00",
+            font=("Inter", 72 * -1,"bold")
+        )
+        self.point_text = self.canvas.create_text(
+            1762.0,
+            375.0,
+            anchor="nw",
+            text="คะแนน",
+            fill="#FF7F00",
+            font=("Inter", 32 * -1,"bold")
+        )
+        self.score_text = self.canvas.create_text(
+            1790.0,
+            475.0,
+            anchor="nw",
+            text="10",
+            fill="#FF7F00",
+            font=("Inter", 72 * -1)
+        )
         
         self.button_21_image = PhotoImage(file=relative_to_assets("button_21.png"))
-        self.button_21 = Button(self, image=self.button_21_image, borderwidth=0, highlightthickness=0, bg="#fae3de",
-                        activebackground="#fae3de", command=self.on_button_21_click, relief="flat")
-        self.button_21.place(x=1545.0, y=660.0, width=151.0, height=151.0)
+        self.button_21 = Button(self, image=self.button_21_image, borderwidth=0, highlightthickness=0, bg="#ffffff",
+                        activebackground="#ffffff", command=self.on_button_21_click, relief="flat")
+        self.button_21.place(x=1747.0, y=840.0, width=125.0, height=125.0)
 
         self.button_22_image = PhotoImage(file=relative_to_assets("button_22.png"))
-        self.button_22 = Button(self, image=self.button_22_image, borderwidth=0, highlightthickness=0, bg="#fae3de",
-                        activebackground="#fae3de", command=self.on_button_22_click, relief="flat")
-        self.button_22.place(x=1555.0, y=470.0, width=125.0, height=125.0)
+        self.button_22 = Button(self, image=self.button_22_image, borderwidth=0, highlightthickness=0, bg="#ffffff",
+                        activebackground="#ffffff", command=self.on_button_22_click, relief="flat")
+        self.button_22.place(x=1747.0, y=660.0, width=125.0, height=125.0)
         
         self.selected_category = None  # เริ่มต้นให้ไม่มีการเลือกหมวดหมู่
         # เริ่มตัวจับเวลา
@@ -1454,7 +1403,7 @@ class ChallengePage(Frame):
     def reset_circle_colors(self):
         """ ฟังก์ชันเพื่อตั้งค่าสีของวงกลมเป็นสีขาว """
         for circle in self.circle_items:
-            self.canvas.itemconfig(circle, fill="#FFFFFF")  # เปลี่ยนสีของวงกลมเป็นขาว
+            self.canvas.itemconfig(circle, fill="#D9D9D9")  # เปลี่ยนสีของวงกลมเป็นขาว
         self.time_out_count = 0  # Reset the timeout counter to start from the first circle
 
         
@@ -1462,7 +1411,7 @@ class ChallengePage(Frame):
         """ เริ่มตัวจับเวลา """
         self.stop_timer()  # หยุดตัวจับเวลาเก่าหากมี
         self.timer_running = True
-        self.remaining_time = 3  # รีเซ็ตเวลาเริ่มต้น
+        self.remaining_time = 5  # รีเซ็ตเวลาเริ่มต้น
         self.update_timer()
 
     def stop_timer(self):
@@ -1503,9 +1452,9 @@ class ChallengePage(Frame):
 
             # ปรับตำแหน่งของเวลาให้เหมาะสมตามจำนวนหลัก
             if self.remaining_time < 10:  # ถ้ามีเลขหลักเดียว
-                self.canvas.coords(self.timer_text, 1600.0, 244.0)
+                self.canvas.coords(self.timer_text, 1790.0, 175.0)
             else:  # ถ้ามีเลขสองหลัก
-                self.canvas.coords(self.timer_text, 1575.0, 244.0)
+                self.canvas.coords(self.timer_text, 1765.0, 175.0)
 
             self.remaining_time -= 1  # ลดเวลาลง 1 วินาที
             self.after_id = self.after(1000, self.update_timer)  # เรียกฟังก์ชัน update_timer ทุก 1 วินาที
@@ -1524,6 +1473,7 @@ class ChallengePage(Frame):
             
     def update_word_text(self):
         """ อัปเดตคำที่แสดงบน canvas จากการสุ่มในหมวดหมู่ที่เลือก """
+        self.canvas.itemconfig(self.score_text, text=str(self.score_show))
         if self.selected_category is not None:  # เช็คว่าเลือกหมวดหมู่แล้ว
             word = random.choice(self.word_list[self.selected_category])  # เลือกคำจากหมวดหมู่ที่เลือก
             self.current_word = word
@@ -1534,9 +1484,10 @@ class ChallengePage(Frame):
             
     def reset_timer(self):
         """ รีเซ็ตเวลาทั้งหมด """
-        self.remaining_time = 3  # กำหนดเวลาเริ่มต้นใหม่
+        self.remaining_time = 5  # กำหนดเวลาเริ่มต้นใหม่
         self.time_out_count = 0  # ตัวแปรเก็บจำนวนครั้งที่เวลาหมด
         self.score = 5
+        self.score_show = 0
         self.score_red = 0
         self.circle_colors = []
         self.timer_running = False
@@ -1545,7 +1496,7 @@ class ChallengePage(Frame):
         self.start_timer()  # เริ่มจับเวลาใหม่
         
     def reset_content(self):
-        self.remaining_time = 3  # กำหนดเวลาเริ่มต้นใหม่
+        self.remaining_time = 5  # กำหนดเวลาเริ่มต้นใหม่
         self.timer_running = False
         self.update_word_text()  # รีเฟรชคำที่แสดง
         self.start_timer()  # เริ่มจับเวลาใหม่
@@ -1581,29 +1532,29 @@ class ChallengePage(Frame):
     def load_model_for_category(self, category_name):
         if self.word_list == self.word_list1:
             if category_name == "วัน":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Day1.h5"
+                model_path = "assets/frame0/Model/Day1.h5"
             elif category_name == "เวลา":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Time1.h5"
+                model_path = "assets/frame0/Model/Time1.h5"
             elif category_name == "เลข":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Num1.h5"
+                model_path = "assets/frame0/Model/Num1.h5"
             elif category_name == "บุคคล":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Person1.h5"
+                model_path = "assets/frame0/Model/Person1.h5"
             elif category_name == "สี":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Color1.h5"
+                model_path = "assets/frame0/Model/Color1.h5"
             else:
                 print("None")
                 model_path = None  # ถ้าไม่พบหมวดหมู่ที่ตรง
         elif self.word_list == self.word_list2:
             if category_name == "วัน":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Day2.h5"
+                model_path = "assets/frame0/Model/Day2.h5"
             elif category_name == "เวลา":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Time2.h5"
+                model_path = "assets/frame0/Model/Time2.h5"
             elif category_name == "เลข":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Num2.h5"
+                model_path = "assets/frame0/Model/Num2.h5"
             elif category_name == "บุคคล":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Person2.h5"
+                model_path = "assets/frame0/Model/Person2.h5"
             elif category_name == "สี":
-                model_path = "D:/ProgramProject/build2/build/assets/frame0/Model/Color2.h5"
+                model_path = "assets/frame0/Model/Color2.h5"
             else:
                 print("None")
                 model_path = None  # ถ้าไม่พบหมวดหมู่ที่ตรง
@@ -1631,7 +1582,7 @@ class ChallengePage(Frame):
             H, W, _ = frame.shape
             
             # ปรับขนาดภาพให้ใหญ่ขึ้น 10% (จากขนาดเดิม)
-            new_size = (int(W * 1.1), int(H * 1.1))  # ขนาดใหม่ที่เพิ่มขึ้น 10%
+            new_size = (int(W * 1.75), int(H * 1.75))  # ขนาดใหม่ที่เพิ่มขึ้น 10%
             frame = cv2.resize(frame, new_size)
 
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -1667,14 +1618,15 @@ class ChallengePage(Frame):
 
                 predicted_character = self.labels_dict.get(predicted_class, 'Unknown')
 
-                x1 = int(min(x_) * W) - 10
-                y1 = int(min(y_) * H) - 10
-                x2 = int(max(x_) * W) - 10
-                y2 = int(max(y_) * H) - 10
+                x1 = int(min(x_) * new_size[0]) - 10
+                y1 = int(min(y_) * new_size[1]) - 10
+                x2 = int(max(x_) * new_size[0]) + 10
+                y2 = int(max(y_) * new_size[1]) + 10
+
 
                 # วาดกรอบและแสดงข้อความที่ทำนาย
                 cv2.rectangle(frame_rgb, (x1, y1), (x2, y2), (0, 0, 0), 4)
-                frame_rgb = self.draw_thai_text(frame_rgb, predicted_character, (x1, y1 - 10), font_path="D:/ProgramProject/build2/build/assets/frame0/Sriracha-Regular.ttf", font_size=32, color=(0, 0, 0))
+                frame_rgb = self.draw_thai_text(frame_rgb, predicted_character, (x1, y1 - 10), font_path="assets/frame0/Sriracha-Regular.ttf", font_size=32, color=(0, 0, 0))
 
                 self.check_answer(predicted_character)
                 
@@ -1682,16 +1634,18 @@ class ChallengePage(Frame):
             imgtk = ImageTk.PhotoImage(image=img)
             self.label_img.imgtk = imgtk
             self.label_img.configure(image=imgtk)
+            self.label_img.place(x=430,y=175)
         else:
-            img = Image.new('RGB', (768, 576), color='black')
+            img = Image.new('RGB', (105, 125), color='black')
             imgtk = ImageTk.PhotoImage(image=img)
             self.label_img.imgtk = imgtk
             self.label_img.configure(image=imgtk)
+            self.label_img.place(x=350,y=180)
 
         # ตั้งค่าการแสดงผลให้เหมือนเดิม (มีการจัดตำแหน่งกลางและมี Padding)
         self.label_img.after(10, self.update_frame)
         
-    def draw_thai_text(self, image, text, position, font_path, font_size=32, color=(0, 0, 0)):
+    def draw_thai_text(self, image, text, position, font_path, font_size=64, color=(0, 0, 0)):
         pil_image = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
         draw = ImageDraw.Draw(pil_image)
         font = ImageFont.truetype(font_path, font_size)
@@ -1723,6 +1677,7 @@ class ChallengePage(Frame):
         """ เรียกใช้เมื่อซ่อนหน้า """
         self.stop_timer()
         self.score = 0
+        self.score_show = 0
         self.circle_colors = []
         self.close_camera()  # ปิดกล้องเมื่อซ่อนหน้า
         print("กล้องถูกปิด")
@@ -1732,16 +1687,25 @@ class ChallengePage(Frame):
         if self.camera_label:
             self.canvas.tag_raise(self.camera_label)  # ยกกล้องให้มาอยู่ด้านบนสุด
 
+    def blink_rectangle(self, color, duration=1000):
+        # เปลี่ยนสีของสี่เหลี่ยม
+        self.canvas.itemconfig(self.background_rect, fill=color)
+        # ตั้งเวลาให้กลับไปเป็นสีเดิม
+        self.after(duration, lambda: self.canvas.itemconfig(self.background_rect, fill="#FFFFFF"))
+
+
     def change_circle_color_to_red(self):
         """ ฟังก์ชันเพื่อเปลี่ยนสีของวงกลมทีละวงเมื่อเวลาหมด """
         if self.time_out_count < len(self.circle_items):  # ตรวจสอบว่าเวลาหมดไปแล้วกี่ครั้ง
             print(f"เปลี่ยนสีวงกลมที่ {self.time_out_count + 1}")
             # เปลี่ยนสีของวงกลมตามลำดับที่เวลาหมด
-            self.canvas.itemconfig(self.circle_items[self.time_out_count], fill="#FF0000")
+            self.canvas.itemconfig(self.circle_items[self.time_out_count], fill="#FF7F00")
             
             self.circle_colors.append("red")
             self.controller.time_up()
             self.time_out_count += 1  # เพิ่มจำนวนครั้งที่เวลาหมด
+
+            self.blink_rectangle("#FF0000")
         else:
             print("ไม่มีวงกลมเพิ่มเติมให้เปลี่ยนสี")  # กรณีที่เวลาหมดจนถึงวงกลมทั้งหมด
             
@@ -1756,12 +1720,15 @@ class ChallengePage(Frame):
             print(f"เปลี่ยนสีวงกลมที่ {self.time_out_count + 1} เป็นสีเขียว")
         
             # เปลี่ยนสีของวงกลมที่เวลาหมดไปแล้วเป็นสีเขียว
-            self.canvas.itemconfig(self.circle_items[self.time_out_count], fill="#00FF00")
+            self.canvas.itemconfig(self.circle_items[self.time_out_count], fill="#FF7F00")
             self.circle_colors.append("green")
             self.controller.correct_answer()
             
             self.circle_changes += 1
             self.time_out_count += 1  # เพิ่มจำนวนครั้งที่เวลาหมด
+            self.score_show += 1
+
+            self.blink_rectangle("#00FF00")
         else:
             print("ไม่มีวงกลมเพิ่มเติมให้เปลี่ยนสี")  # กรณีที่เวลาหมดจนถึงวงกลมทั้งหมด
         
@@ -1769,7 +1736,7 @@ class ChallengePage(Frame):
     def change_circle_color_to_white(self):
         """ เปลี่ยนสีวงกลมเป็นสีขาว """
         for circle in self.circle_items:  # วนลูปผ่านทุกวงกลมใน self.circle_items
-            self.canvas.itemconfig(circle, fill="#FFFFFF")  # เปลี่ยนสีของแต่ละวงกลมเป็นสีขาว
+            self.canvas.itemconfig(circle, fill="#D9D9D9")  # เปลี่ยนสีของแต่ละวงกลมเป็นสีขาว
 
         
     def update_content(self, category_name):
@@ -1777,8 +1744,18 @@ class ChallengePage(Frame):
         # ล็อกหมวดหมู่ที่เลือก
         self.selected_category = category_name  # ล็อกหมวดหมู่ที่ส่งเข้ามา
         self.current_category = category_name  # อัปเดต self.current_category ให้ตรงกับ category_name
-        full_text = f"หมวด {category_name}"  # เติมคำว่า 'หมวด'
-        self.canvas.itemconfig(self.title_text, text=full_text)
+
+        entry_image_path = f"หมวด_{category_name}.png"  # สมมติว่าชื่อไฟล์รูปภาพขึ้นกับชื่อบทเรียน
+        entry_image_change = PhotoImage(file=relative_to_assets(entry_image_path))
+        
+        if entry_image_path in ["หมวด_สี.png", "หมวด_วัน.png"]:
+            y_position = 55
+        else:
+            y_position = 60
+
+        # แสดงรูปภาพในตำแหน่งที่ต้องการ
+        self.entry_id = self.canvas.create_image(800.0, y_position, anchor="center", image=entry_image_change)
+        self.entry_image_change = entry_image_change  # เก็บ reference เพื่อป้องกันรูปหาย
 
         # โหลดโมเดลใหม่ตามหมวดหมู่
         self.load_model_for_category(category_name)
